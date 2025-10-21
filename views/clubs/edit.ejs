@@ -1,0 +1,89 @@
+<div class="container" style="max-width: 600px;">
+  <h3>Edit Club</h3>
+  <form action="/clubs/edit/<%= club.id %>" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" name="name" value="<%= club.name %>" class="form-control" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea name="description" class="form-control"           rows="4" required   cols="3"
+      maxlength="250"><%= club.description %></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Admin</label>
+      <select name="adminId" class="form-select">
+        <% admins.forEach(a => { %>
+          <option value="<%= a.id %>" <%= club.adminId === a.id ? 'selected' : '' %>><%= a.email %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label d-block">Image</label>
+      <div
+        id="dropzone"
+        style="
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        text-align: center;
+        height: 200px;
+        padding: 10px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+      >
+        <% if (club.image) { %>
+          <img
+            id="preview"
+            src="<%= club.image %>"
+            alt="Preview"
+            style="max-width: 100%; max-height: 100%; object-fit: cover; border-radius: 10px"
+          />
+        <% } else { %>
+          <span id="placeholder-text">Click to upload image</span>
+          <img
+            id="preview"
+            src="#"
+            alt="Preview"
+            style="max-width: 100%; max-height: 100%; display: none; object-fit: cover; border-radius: 10px"
+          />
+        <% } %>
+    
+        <input
+          type="file"
+          name="image"
+          id="image-input"
+          accept="image/*"
+          style="display: none"
+        />
+      </div>
+    </div>
+    <button class="btn btn-primary">Update</button>
+  </form>
+</div>
+
+<script>
+  const dropzone = document.getElementById("dropzone");
+  const fileInput = document.getElementById("image-input");
+  const preview = document.getElementById("preview");
+  const placeholder = document.getElementById("placeholder-text");
+
+  dropzone.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.src = reader.result;
+      preview.style.display = "block";
+      if (placeholder) placeholder.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  });
+</script>

@@ -1,0 +1,92 @@
+<div class="container" style="max-width: 700px">
+  <img
+    src="<%= book.image %>"
+    alt="<%= book.title %>"
+    class="img-fluid rounded mb-3"
+    style="width: 100%; height: 350px; object-fit: cover"
+  />
+
+  <h2 class="fw-bold mb-2"><%= book.title %></h2>
+  <p class="text-muted mb-3"><%= book.description %></p>
+
+  <p><strong>Author:</strong> <%= book.author %></p>
+  <p><strong>Club:</strong> <a href="/clubs/<%= book.club.id %>"><%= book.club ? book.club.name : "No club" %></a></p>
+  <p><strong>Average Rating:</strong> <%= avgRating ? avgRating + ' ⭐' : 'Not rated yet' %></p>
+
+  <!-- Rating & joining leaving Section -->
+   <div class="d-flex">
+  <div class="card card-body mt-2">
+    <h5>Rate this book</h5>
+    <% if (currentUser) { %>
+      <form action="/books/<%= book.id %>/rate" method="post" class="d-flex align-items-center gap-2 mt-1">
+        <select name="rating" class="form-select w-full" required>
+          <option value="">Select</option>
+          <% for (let i = 1; i <= 5; i++) { %>
+            <option value="<%= i %>" <%= userRating == i ? "selected" : "" %>><%= i %> ⭐</option>
+          <% } %>
+        </select>
+        <button class="btn btn-primary ">Submit</button>
+      </form>
+    <% } else { %>
+      <p><a href="/login">Login</a> to rate this book.</p>
+    <% } %>
+  </div>
+  <div class="ms-4 card card-body mt-2 d-flex flex-column justify-content-between">
+    
+  <% if (currentUser) { %>
+    <% if (isJoined) { %>
+      <h5>You are a member.</h5> 
+      <form action="/membership/leave/<%= book.id %>" method="post" >
+        <button class="btn btn-secondary w-100">Leave</button>
+      </form>
+    <% } else { %>
+      <h5>You are a not member.</h5> 
+      <form action="/membership/join/<%= book.id %>" method="post" >
+        <button class="btn btn-success w-100">Join</button>
+      </form>
+    <% } %>
+  <% } %>
+  </div>
+</div>
+
+
+  <!-- Comments Section -->
+  <h5 class="mt-5">Comments</h5>
+
+  <% if (currentUser) { %>
+    <form action="/books/<%= book.id %>/comments" method="POST" class="mb-4">
+      <textarea name="text" class="form-control mb-2" placeholder="Add a comment..." required rows="3" maxlength="300"></textarea>
+      <div class="d-flex justify-content-end"><button class="btn btn-primary">Post Comment</button></div>
+    </form>
+  <% } else { %>
+    <p><a href="/login">Login</a> to comment.</p>
+  <% } %>
+
+  <% if (!book.comments || book.comments.length === 0) { %>
+    <p class="text-muted">No comments yet.</p>
+  <% } else { %>
+    <div class="d-flex flex-column-reverse">
+    <% book.comments.forEach(comment => { %>
+      <div class="card mb-2 p-3 pb-2 rounded">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <div class="d-flex align-items-center">
+            <% if (comment.user.profile && comment.user.profile.image) { %>
+              <img src="<%= comment.user.profile.image %>" alt="User Avatar" class="rounded-circle me-2" style="width: 37px; height: 37px; object-fit: cover" />
+            <% } else { %>
+              <i class="bi bi-person-circle me-2" style="font-size: 33px"></i>
+            <% } %>
+            <div class="d-flex flex-column">
+              <strong style="font-size: 13.5px">
+                <%= comment.user.profile ? comment.user.profile.firstName : comment.user.username %>
+                <%= comment.user.profile ? comment.user.profile.lastName : "" %>
+              </strong>
+              <span class="text-muted" style="font-size: 13.5px"><%= comment.user.email %></span>
+            </div>
+          </div>
+          <small class="text-muted"><%= comment.createdAt.toLocaleString() %></small>
+        </div>
+        <p class="mb-0" style="font-size: 15px"><%= comment.text %></p>
+      </div>
+    <% }) %>
+  <% } %></div>
+</div>

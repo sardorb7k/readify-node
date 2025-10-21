@@ -1,0 +1,39 @@
+<h2 class="text-center mt-5 pt-5 fw-bold">Login</h2>
+
+<% if (errors && errors.length) { %>
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-3">
+      <div class="alert alert-danger">
+        <div>
+          <% errors.forEach(e => { %>
+          <span><%= e %></span>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<form action="/login" method="post" class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-3">
+      <div class="mb-3">
+        <label>Email</label>
+        <input
+          name="email"
+          type="email"
+          class="form-control"
+          value="<%= form.email || '' %>"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label>Password</label>
+        <input name="password" type="password" class="form-control" required />
+      </div>
+      <button class="btn btn-primary w-100">Login</button>
+    </div>
+  </div>
+</form>

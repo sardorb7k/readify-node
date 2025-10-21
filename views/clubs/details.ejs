@@ -1,0 +1,64 @@
+<div class="container">
+  <!-- Club Info -->
+  <div>
+    <img
+      src="<%= club.image %>"
+      alt="<%= club.name %>"
+      style="width: 100%; height: 500px; object-fit: cover; border-radius: 10px"
+    />
+    <h2 class="fw-bold mt-3"><%= club.name %></h2>
+    <p><%= club.description || "No description" %></p>
+    <p><strong>Admin:</strong> <%= club.admin ? club.admin.email : "N/A" %></p>
+  </div>
+  <br />
+  <hr />
+  <br />
+  <!-- Books in Club -->
+  <h4>Books in this club</h4>
+  <% if (!club.books || club.books.length === 0) { %>
+  <p class="text-muted">No books yet.</p>
+  <% } else { %>
+  <div class="row g-3">
+    <% club.books.forEach(book => { %>
+    <div class="col-md-3">
+      <a href="/books/<%= book.id %>" class="text-decoration-none text-dark">
+        <div class="card shadow-sm" style="cursor: pointer">
+          <div class="card-body">
+            <img
+              src="<%= book.image %>"
+              alt="<%= book.title %>"
+              style="
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+                border-radius: 10px;
+              "
+            />
+            <h5 class="card-title fw-bold mt-2"><%= book.title %></h5>
+            <p class="card-text mb-2 card-description">
+              <%= book.description || 'No description' %>
+            </p>
+            <p class="card-text mb-1">
+              <strong>Author:</strong> <%= book.author %>
+            </p>
+            <p class="card-text">
+              <strong>Club:</strong> <%= book.club ? book.club.name : 'N/A' %>
+            </p>
+            <!-- <div class="d-flex justify-content-between"> <a href="/books/edit/<%= book.id %>" class="btn btn-sm btn-warning" >Edit</a > <form action="/books/delete/<%= book.id %>" method="post" onsubmit="return confirm('Delete this book?')" > <button class="btn btn-sm btn-danger">Delete</button> </form> <form action="/membership/join/<%= book.id %>" method="post"> <button class="btn btn-success btn-sm">Join</button> </form> <form action="/membership/leave/<%= book.id %>" method="post"> <button class="btn btn-secondary btn-sm">Leave</button> </form> </div> -->
+          </div>
+        </div>
+      </a>
+    </div>
+    <% }) %>
+  </div>
+  <% } %>
+</div>
+<style>
+  .card {
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+</style>

@@ -1,0 +1,76 @@
+<h2 class="text-center mt-5 pt-5 fw-bold">Register</h2>
+
+<% if (errors && errors.length) { %>
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-3">
+      <div class="alert alert-danger">
+        <div>
+          <% errors.forEach(e => { %>
+          <span><%= e %></span>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<form action="/register" method="post" class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input
+            name="email"
+            type="email"
+            value="<%= form.email || '' %>"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Password</label>
+          <input
+            name="password"
+            type="password"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Username</label>
+          <input
+            name="username"
+            value="<%= form.username || '' %>"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">First name</label>
+          <input
+            name="firstName"
+            value="<%= form.firstName || '' %>"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Last name</label>
+          <input
+            name="lastName"
+            value="<%= form.lastName || '' %>"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-primary w-100">Register</button>
+      </div>
+    </div>
+  </div>
+</form>

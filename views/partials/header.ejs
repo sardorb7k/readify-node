@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-lg mb-4">
+  <div class="container">
+    <a
+      class="navbar-brand text-light fw-medium d-flex align-items-center g-2"
+      href="/"
+      ><img src="/logo.png" alt="Logo" width="30" height="30" class="me-2" />
+      Readify</a
+    >
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <% if (!currentUser) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+        <% } else { %>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle d-flex align-items-center"
+            href="#"
+            id="userDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <% if (currentUser.profileImage) { %>
+            <img
+              src="<%= currentUser.profileImage %>"
+              alt="Profile"
+              class="rounded-circle me-2"
+              width="32"
+              height="32"
+              style="object-fit: cover"
+            />
+            <% } else { %>
+            <i class="bi bi-person-circle me-2 fs-5"></i>
+            <% } %>
+            <span><%= currentUser.firstName %></span>
+          </a>
+
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="userDropdown"
+          >
+            <li>
+              <a class="dropdown-item" href="/profile"
+                ><i class="bi bi-person"></i> Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/books"
+                ><i class="bi bi-book me-2"></i>Books</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/clubs"
+                ><i class="bi bi-collection me-2"></i>Clubs</a
+              >
+            </li>
+
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <form action="/logout" method="post">
+                <button class="dropdown-item text-danger" type="submit">
+                  <i class="bi bi-box-arrow-right"></i>
+                  Logout
+                </button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
