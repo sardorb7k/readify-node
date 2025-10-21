@@ -21,15 +21,18 @@ Password Hashing: bcryptjs
 
 # 1. Clone repository
 
+```bash
 git clone https://github.com/sardorb7k/readify-node
 cd readify-node
-
+```
 # 2. Install dependencies
 
+```bash
 npm install
-
+```
 # 3. Setup database & .env
 
+```bash
 PORT=3000
 
 DB_HOST=localhost
@@ -39,7 +42,9 @@ DB_USER=postgres
 DB_PASS=YOUR_PASSWORD
 
 SESSION_SECRET=sh-jcfa8F3_jfcW87
-
+```
 # 4. Run server
 
+```bash
 npm run dev
+```
